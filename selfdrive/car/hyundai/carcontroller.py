@@ -15,7 +15,6 @@ from openpilot.selfdrive.controls.lib.desire_helper import LANE_CHANGE_SPEED_MIN
 from openpilot.selfdrive.car.hyundai.navicontrol  import NaviControl
 
 from openpilot.common.params import Params
-import openpilot.common.log as trace1
 from random import randint
 from decimal import Decimal
 
@@ -1295,7 +1294,6 @@ class CarController(CarControllerBase):
       else:
         str_log2 = 'MDPS={}  LKAS={:1.0f}  LEAD={}  AQ={:+04.2f}  VF={:03.0f}/{:03.0f}  CG={:1.0f}'.format(
         int(not CS.out.steerFaultTemporary), 0, int(bool(0 < CS.lead_distance < 149)), self.aq_value if self.longcontrol else CS.scc_control["aReqValue"], self.vFuture, self.vFutureA, CS.cruiseGapSet)
-      trace1.printf2( '{}'.format( str_log2 ) )
     else:
       str_log1 = 'EN/LA/LO={}/{}{}/{}  MD={}  BS={:1.0f}  CV={:03.0f}/{:0.4f}  TQ={:03.0f}/{:03.0f}  VF={:03.0f}  ST={:03.0f}/{:01.0f}/{:01.0f}'.format(
         int(CC.enabled), int(CC.latActive), int(lat_active), int(CC.longActive), CS.out.cruiseState.modeSel, self.CP.sccBus, self.model_speed, abs(self.sm['controlsState'].curvature), abs(new_steer), abs(CS.out.steeringTorque), self.vFuture, self.params.STEER_MAX, self.params.STEER_DELTA_UP, self.params.STEER_DELTA_DOWN)
@@ -1305,10 +1303,6 @@ class CarController(CarControllerBase):
       else:
         str_log2 = 'MDPS={}  LKAS={:1.0f}  LEAD={}  AQ={:+04.2f}  VF={:03.0f}/{:03.0f}  CG={:1.0f}'.format(
         int(not CS.out.steerFaultTemporary), CS.lkas_button_on, int(bool(0 < CS.lead_distance < 149)), self.aq_value if self.longcontrol else CS.scc12["aReqValue"], self.vFuture, self.vFutureA, CS.cruiseGapSet)
-      trace1.printf2( '{}'.format( str_log2 ) )
-
-    # str_log3 = 'V/D/R/A/M/G={:.1f}/{:.1f}/{:.1f}/{:.2f}/{:.1f}/{:1.0f}'.format(CS.clu_Vanz, CS.lead_distance, CS.lead_objspd, CS.scc12["aReqValue"], self.stoppingdist, CS.cruiseGapSet)
-    # trace1.printf3('{}'.format(str_log3))
 
     self.cc_timer += 1
     if self.cc_timer > 100:
@@ -1348,8 +1342,6 @@ class CarController(CarControllerBase):
         torque_params = self.sm['liveTorqueParameters']
         self.str_log2 = 'T={:0.2f}/{:0.2f}/{:0.3f}'.format(torque_params.latAccelFactorFiltered, torque_params.latAccelOffsetFiltered, torque_params.frictionCoefficientFiltered)
 
-    trace1.printf1('{}  {}'.format(str_log1, self.str_log2))
-
     new_actuators = actuators.as_builder()
     new_actuators.steer = apply_steer / self.params.STEER_MAX
     new_actuators.steerOutputCan = apply_steer
@@ -1366,6 +1358,9 @@ class CarController(CarControllerBase):
 
     new_actuators.autoResvCruisekph = self.v_cruise_kph_auto_res
     new_actuators.resSpeed = self.res_speed
+
+    new_actuators.kisaLog1 = str_log1 + '  ' + self.str_log2
+    new_actuators.kisaLog2 = str_log2
 
     self.frame += 1
     return new_actuators, can_sends

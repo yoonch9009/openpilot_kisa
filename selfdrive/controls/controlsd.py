@@ -834,10 +834,6 @@ class Controls:
   def publish_logs(self, CS, start_time, CC, lac_log):
     """Send actuators and hud commands to the car, send controlsstate and MPC logging"""
 
-    self.log_alertTextMsg1 = trace1.global_alertTextMsg1
-    self.log_alertTextMsg2 = trace1.global_alertTextMsg2
-    self.log_alertTextMsg3 = trace1.global_alertTextMsg3
-
     # Orientation and angle rates can be useful for carcontroller
     # Only calibrated (car) frame is relevant for the carcontroller
     orientation_value = list(self.sm['liveLocationKalman'].calibratedOrientationNED.value)
@@ -994,9 +990,9 @@ class Controls:
     controlsState.forceDecel = bool(force_decel)
     controlsState.experimentalMode = self.experimental_mode
     controlsState.personality = self.personality
-    controlsState.alertTextMsg1 = self.log_alertTextMsg1
-    controlsState.alertTextMsg2 = self.log_alertTextMsg2
-    controlsState.alertTextMsg3 = self.log_alertTextMsg3
+    controlsState.alertTextMsg1 = str(CO.actuatorsOutput.kisaLog1)
+    controlsState.alertTextMsg2 = str(CO.actuatorsOutput.kisaLog2)
+    controlsState.alertTextMsg3 = str(trace1.global_alertTextMsg3)
     controlsState.pauseSpdLimit = self.v_cruise_helper.pause_spdlimit
     if self.osm_speedlimit_enabled or self.navi_selection == 2:
       if self.navi_selection == 2:

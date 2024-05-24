@@ -431,6 +431,9 @@ struct CarControl {
     aqValueRaw @16: Float32;
     autoResvCruisekph @17: Float32;
     resSpeed @18: Float32;
+    kisaLog1 @19: Text;
+    kisaLog2 @20: Text;
+    kisaLog3 @21: Text;
 
     enum LongControlState @0xe40f3a917d908282{
       off @0;
