@@ -1409,7 +1409,7 @@ class CarController(CarControllerBase):
               can_sends.append(hyundaicanfd.create_buttons(self.packer, self.CP, self.CAN, CS.buttons_counter, Buttons.GAP_DIST, CS.cruise_btn_info))
             self.last_button_frame = self.frame
             self.cruise_gap_adjusting = True
-            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1.5,1])
           else:
             self.cruise_gap_adjusting = False
             self.cruise_gap_set_init = False
@@ -1437,7 +1437,7 @@ class CarController(CarControllerBase):
               can_sends.append(hyundaicanfd.create_buttons(self.packer, self.CP, self.CAN, CS.buttons_counter, Buttons.GAP_DIST, CS.cruise_btn_info))
             self.last_button_frame = self.frame
             self.cruise_gap_adjusting = True
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1,1,2])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1.5,1,2])
         elif 0 < CS.lead_distance <= 149 and self.try_early_stop_retrieve and self.try_early_stop_org_gap not in (CS.cruiseGapSet, CS.distance_setting) and \
           (CS.clu_Vanz <= 20 or (CS.lead_objspd >= 0 and self.e2e_x > 50 and CS.clu_Vanz > 20)) and self.try_early_stop:
           for _ in range(self.btn_count):
@@ -1445,11 +1445,11 @@ class CarController(CarControllerBase):
           self.last_button_frame = self.frame
           self.cruise_gap_adjusting = True
           if self.try_early_stop_org_gap == 1:
-            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1.5,1])
           elif self.try_early_stop_org_gap == 2:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1.5])
           elif self.try_early_stop_org_gap == 3:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1,1,2])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1.5,1,2])
         elif self.try_early_stop_retrieve and CS.cruiseGapSet == self.try_early_stop_org_gap and self.try_early_stop:
           self.try_early_stop_retrieve = False
           self.try_early_stop_org_gap = 0
@@ -1468,13 +1468,13 @@ class CarController(CarControllerBase):
           self.last_button_frame = self.frame
           self.cruise_gap_adjusting = True
           if self.gap_by_spd_gap[0] == 1:
-            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1.5,1])
           elif self.gap_by_spd_gap[0] == 2:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1.5])
           elif self.gap_by_spd_gap[0] == 3:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1,1,2])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1.5,1,2])
           elif self.gap_by_spd_gap[0] == 4:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1.5,1])
         elif self.gap_by_spd_on and self.gap_by_spd_on_sw_trg and self.gap_by_spd_gap[1] not in (CS.cruiseGapSet, CS.distance_setting) and \
          ((self.gap_by_spd_spd[0] <= CS.clu_Vanz < self.gap_by_spd_spd[1]+self.gap_by_spd_on_buffer2) or self.gap_by_spd_gap2) and not self.try_early_stop_retrieve and not CS.lead_objspd < 0:
           self.gap_by_spd_gap1 = False
@@ -1488,13 +1488,13 @@ class CarController(CarControllerBase):
           self.last_button_frame = self.frame
           self.cruise_gap_adjusting = True
           if self.gap_by_spd_gap[1] == 1:
-            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1.5,1])
           elif self.gap_by_spd_gap[1] == 2:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1.5])
           elif self.gap_by_spd_gap[1] == 3:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1,1,2])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1.5,1,2])
           elif self.gap_by_spd_gap[1] == 4:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1.5,1])
         elif self.gap_by_spd_on and self.gap_by_spd_on_sw_trg and self.gap_by_spd_gap[2] not in (CS.cruiseGapSet, CS.distance_setting) and \
          ((self.gap_by_spd_spd[1] <= CS.clu_Vanz < self.gap_by_spd_spd[2]+self.gap_by_spd_on_buffer3) or self.gap_by_spd_gap3) and not self.try_early_stop_retrieve and not CS.lead_objspd < 0:
           self.gap_by_spd_gap1 = False
@@ -1507,13 +1507,13 @@ class CarController(CarControllerBase):
           self.last_button_frame = self.frame
           self.cruise_gap_adjusting = True
           if self.gap_by_spd_gap[2] == 1:
-            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1.5,1])
           elif self.gap_by_spd_gap[2] == 2:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1.5])
           elif self.gap_by_spd_gap[2] == 3:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1,1,2])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1.5,1,2])
           elif self.gap_by_spd_gap[2] == 4:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1.5,1])
         elif self.gap_by_spd_on and self.gap_by_spd_on_sw_trg and self.gap_by_spd_gap[3] not in (CS.cruiseGapSet, CS.distance_setting) and \
          ((self.gap_by_spd_spd[2] <= CS.clu_Vanz) or self.gap_by_spd_gap4) and not self.try_early_stop_retrieve and not CS.lead_objspd < 0:
           self.gap_by_spd_gap1 = False
@@ -1526,13 +1526,13 @@ class CarController(CarControllerBase):
           self.last_button_frame = self.frame
           self.cruise_gap_adjusting = True
           if self.gap_by_spd_gap[3] == 1:
-            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [2,3,4], [2,1.5,1])
           elif self.gap_by_spd_gap[3] == 2:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,3,4], [1,2,1.5])
           elif self.gap_by_spd_gap[3] == 3:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1,1,2])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,4], [1.5,1,2])
           elif self.gap_by_spd_gap[3] == 4:
-            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1,1])
+            self.refresh_time = interp(CS.cruiseGapSet, [1,2,3], [2,1.5,1])
         elif self.kisa_variablecruise:
           self.gap_by_spd_gap1 = False
           self.gap_by_spd_gap2 = False
