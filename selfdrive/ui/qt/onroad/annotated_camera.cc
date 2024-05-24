@@ -1327,12 +1327,12 @@ void AnnotatedCameraWidget::drawHud(QPainter &p) {
 
   // rec_stat and toggle
   if (s->scene.driving_record) {
-    if (!s->scene.rec_stat && s->scene.car_state.getVEgo() > 0.3 && s->scene.lateralPlan.standstillElapsedTime == 0) {
+    if (!s->scene.rec_stat && s->scene.car_state.getVEgo() > 0.8 && s->scene.lateralPlan.standstillElapsedTime == 0 && int(s->scene.getGearShifter) == 2) {
       s->scene.rec_stat = !s->scene.rec_stat;
       if (recorder) recorder->toggle();
-    } else if (s->scene.rec_stat && s->scene.standStill && s->scene.lateralPlan.standstillElapsedTime > 9) {
-      if (recorder) recorder->toggle();
+    } else if (s->scene.rec_stat && ((s->scene.standStill && s->scene.lateralPlan.standstillElapsedTime > 5) || int(s->scene.getGearShifter) == 1)) {
       s->scene.rec_stat = !s->scene.rec_stat;
+      if (recorder) recorder->toggle();
     }
   } else {
     if (s->scene.rec_stat && !s->scene.rec_stat2) {
@@ -1347,7 +1347,6 @@ void AnnotatedCameraWidget::drawHud(QPainter &p) {
       s->scene.rec_stat2 = false;
     }
   }
-
   p.restore();
 }
 
