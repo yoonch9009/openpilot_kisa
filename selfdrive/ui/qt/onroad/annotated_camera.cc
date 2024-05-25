@@ -117,8 +117,13 @@ void AnnotatedCameraWidget::updateState(const UIState &s) {
   over_sl = s.scene.limitSpeedCamera > 19 && ((s.scene.car_state.getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH)) > s.scene.ctrl_speed+1.5);
 
   auto lead_one = sm["radarState"].getRadarState().getLeadOne();
-  dist_rel = lead_one.getDRel();
-  vel_rel = lead_one.getVRel();
+  if (s.scene.user_specific_feature == 12) {
+    dist_rel = s.scene.radarDRel;
+    vel_rel = s.scene.radarVRel;
+  } else {
+    dist_rel = lead_one.getDRel();
+    vel_rel = lead_one.getVRel();
+  }
   lead_stat = lead_one.getStatus();
 }
 
@@ -1601,7 +1606,7 @@ void AnnotatedCameraWidget::drawLead(QPainter &painter, const cereal::RadarState
   UIState *s = uiState();
 
   // kisapilot
-  if (s->scene.radarDistance < 149) {
+  if (s->scene.radarDRel < 149) {
     QPointF glow[] = {{x + (sz * 1.35) + g_xo, y + sz + g_yo}, {x, y - g_xo}, {x - (sz * 1.35) - g_xo, y + sz + g_yo}};
     painter.setBrush(QColor(218, 202, 37, 255));
     painter.drawPolygon(glow, std::size(glow));

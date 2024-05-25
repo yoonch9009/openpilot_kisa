@@ -260,7 +260,8 @@ static void update_state(UIState *s) {
     scene.tpmsPressureFr = cs_data.getTpms().getFr();
     scene.tpmsPressureRl = cs_data.getTpms().getRl();
     scene.tpmsPressureRr = cs_data.getTpms().getRr();
-    scene.radarDistance = cs_data.getRadarDistance();
+    scene.radarDRel = cs_data.getRadarDRel();
+    scene.radarVRel = cs_data.getRadarVRel();
     scene.standStill = cs_data.getStandStill();
     scene.vSetDis = cs_data.getVSetDis();
     scene.cruiseAccStatus = cs_data.getCruiseAccStatus();
@@ -574,6 +575,7 @@ void UIState::updateStatus() {
     scene.op_long_enabled = params.getBool("ExperimentalLongitudinalEnabled");
     scene.model_name = QString::fromStdString(params.get("DrivingModel"));
     scene.hotspot_on_boot = params.getBool("KisaHotspotOnBoot");
+    scene.user_specific_feature = std::stoi(params.get("UserSpecificFeature"));
 
     if (scene.autoScreenOff > 0) {
       scene.nTime = scene.autoScreenOff * 60 * UI_FREQ;
