@@ -666,9 +666,9 @@ void AnnotatedCameraWidget::drawHud(QPainter &p) {
     sp_yr = sp_yr + j_num;
     p.setPen(whiteColor(200));
     debugText(p, sp_xr, sp_yr, QString("GPS PREC"), 150, 27);
-    if (s->scene.gpsAccuracy > 3) {
+    if (s->scene.gpsAccuracy > 5) {
       p.setPen(redColor(200));
-    } else if (s->scene.gpsAccuracy > 1.5) {
+    } else if (s->scene.gpsAccuracy > 2.5) {
       p.setPen(orangeColor(200));
     }
     if (s->scene.gpsAccuracy > 99 || s->scene.gpsAccuracy == 0) {
