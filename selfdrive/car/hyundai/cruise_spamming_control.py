@@ -195,7 +195,7 @@ class CruiseSpammingControl():
     self.gap_point = set_gap
     self.set_point = max(20 if CS.is_set_speed_in_mph else 30, set_speed)
     self.curr_speed = CS.out.vEgo * CV.MS_TO_KPH
-    self.DistSet = round(CS.DistSet)
+    self.DistSet = CS.DistSet if CS.DistSet > 0 else CS.cruiseGapSet
     self.VSetDis = round(CS.VSetDis)
     btn_signal = self.switch(self.seq_command)
 
@@ -527,7 +527,7 @@ class CruiseSpammingControl():
     return round(min(var_speed, v_curv_speed, o_curv_speed))
 
   def get_live_gap(self, sm, CS):
-    self.t_interval = randint(self.t_interval2+3, self.t_interval2+5)
+    self.t_interval = randint(15, 25)
     gap_to_set = CS.DistSet if CS.DistSet > 0 else CS.cruiseGapSet
     if 0 < CS.lead_distance <= 149 and CS.lead_objspd < -4 and CS.clu_Vanz > 30 and 0 < self.e2e_x < 120 and self.try_early_stop:
       if not self.try_early_stop_retrieve:
