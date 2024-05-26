@@ -86,7 +86,7 @@ class CruiseSpammingControl():
     self.faststart = False
     self.safetycam_speed = 0
 
-    self.user_specific_feature = int(self.c_params.get("UserSpecificFeature", encoding="utf8"))
+    self.user_specific_feature = int(self.params.get("UserSpecificFeature", encoding="utf8"))
 
     self.e2e_x = 0
 

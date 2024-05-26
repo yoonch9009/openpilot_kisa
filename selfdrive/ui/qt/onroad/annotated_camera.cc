@@ -495,6 +495,8 @@ void AnnotatedCameraWidget::drawHud(QPainter &p) {
       } else {
         debugText(p, sp_xl, sp_yl+60, QString::number(dist_rel, 'f', 0), 150, 57);
       }
+    } else {
+      debugText(p, sp_xl, sp_yl+60, "-", 150, 57);
     }
     p.translate(sp_xl + 90, sp_yl + 20);
     p.rotate(-90);
