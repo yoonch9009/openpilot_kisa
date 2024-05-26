@@ -140,7 +140,7 @@ class CruiseSpammingControl():
       self.target_gap = self.gap_point
       self.target_speed = self.set_point
       delta_speed = round(self.target_speed - self.VSetDis)
-      if self.target_gap != self.DistSet:
+      if self.target_gap and self.target_gap != self.DistSet:
         self.seq_command = 3  # case_3 번으로 이동.
       elif delta_speed > 0:
         self.seq_command = 1  # case_1 번으로 이동.
@@ -526,7 +526,6 @@ class CruiseSpammingControl():
 
     return round(min(var_speed, v_curv_speed, o_curv_speed))
 
-
   def get_live_gap(self, sm, CS):
     self.t_interval = randint(self.t_interval2+3, self.t_interval2+5)
     gap_to_set = CS.DistSet if CS.DistSet > 0 else CS.cruiseGapSet
@@ -600,7 +599,6 @@ class CruiseSpammingControl():
 
     return gap_to_set
 
-
   def update(self, CS):
     self.na_timer += 1
     if self.na_timer > 100:
@@ -611,7 +609,8 @@ class CruiseSpammingControl():
       pass
     elif CS.cruise_active:
       cruiseState_speed = round(self.sm['controlsState'].vCruise)
-      self.ctrl_gap = self.get_live_gap(self.sm, CS) # gap
+      if CS.CP.carFingerprint in CANFD_CAR:
+        self.ctrl_gap = self.get_live_gap(self.sm, CS) # gap
       kph_set_vEgo = self.get_navi_speed(self.sm, CS, cruiseState_speed) # camspeed
       if self.osm_speedlimit_enabled and self.map_spdlimit_offset_option == 2:
         navi_speed = kph_set_vEgo
