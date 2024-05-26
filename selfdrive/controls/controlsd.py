@@ -271,6 +271,8 @@ class Controls:
     self.hkg_stock_lkas_timer = 0
     self.exp_long_enabled = self.params.get_bool("ExperimentalLongitudinalEnabled")
 
+    self.rec_run = False
+
   def auto_enable(self, CS):
     if self.state != State.enabled:
       if CS.cruiseState.available and CS.vEgo > self.auto_enable_speed * (CV.KPH_TO_MS if self.is_metric else CV.MPH_TO_MS) and CS.gearShifter == GearShifter.drive and \
@@ -411,6 +413,7 @@ class Controls:
     if self.second > 1.0:
       self.live_sr = self.params.get_bool("KisaLiveSteerRatio")
       self.live_sr_percent = int(self.params.get("LiveSteerRatioPercent", encoding="utf8"))
+      self.rec_run = self.params.get_bool("RecordingRunning")
       # E2ELongAlert
       if self.params.get_bool("E2ELong") and self.e2e_long_alert_prev:
         self.events.add(EventName.e2eLongAlert)
@@ -448,7 +451,7 @@ class Controls:
           self.events.add(EventName.cameraMalfunction)
         elif not self.sm.all_freq_ok(self.camera_packets):
           self.events.add(EventName.cameraFrameRate)
-    if not REPLAY and self.rk.lagging:
+    if not REPLAY and self.rk.lagging and not self.rec_run:
       self.events.add(EventName.controlsdLagging)
     if len(self.sm['radarState'].radarErrors) or ((not self.rk.lagging or REPLAY) and not self.sm.all_checks(['radarState'])):
       self.events.add(EventName.radarFault)

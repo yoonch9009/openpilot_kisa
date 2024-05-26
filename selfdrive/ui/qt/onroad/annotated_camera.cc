@@ -1336,22 +1336,27 @@ void AnnotatedCameraWidget::drawHud(QPainter &p) {
   if (s->scene.driving_record) {
     if (!s->scene.rec_stat && s->scene.car_state.getVEgo() > 0.8 && s->scene.lateralPlan.standstillElapsedTime == 0 && int(s->scene.getGearShifter) == 2) {
       s->scene.rec_stat = !s->scene.rec_stat;
+      params.putBool("RecordingRunning", s->scene.rec_stat);
       if (recorder) recorder->toggle();
     } else if (s->scene.rec_stat && ((s->scene.standStill && s->scene.lateralPlan.standstillElapsedTime > 5) || int(s->scene.getGearShifter) == 1)) {
       s->scene.rec_stat = !s->scene.rec_stat;
+      params.putBool("RecordingRunning", s->scene.rec_stat);
       if (recorder) recorder->toggle();
     }
   } else {
     if (s->scene.rec_stat && !s->scene.rec_stat2) {
+      params.putBool("RecordingRunning", s->scene.rec_stat);
       if (recorder) recorder->toggle();
       s->scene.rec_stat2 = s->scene.rec_stat;
     } else if (!s->scene.rec_stat && s->scene.rec_stat2) {
+      params.putBool("RecordingRunning", s->scene.rec_stat);
       if (recorder) recorder->toggle();
       s->scene.rec_stat2 = s->scene.rec_stat;
     } else if (s->scene.rec_stat && s->scene.rec_stat3 && int(s->scene.getGearShifter) == 1) {
       if (recorder) recorder->toggle();
       s->scene.rec_stat = false;
       s->scene.rec_stat2 = false;
+      params.putBool("RecordingRunning", s->scene.rec_stat);
     }
   }
   p.restore();
@@ -1758,7 +1763,7 @@ void AnnotatedCameraWidget::paintEvent(QPaintEvent *event) {
   double cur_draw_t = millis_since_boot();
   double dt = cur_draw_t - prev_draw_t;
   double fps = fps_filter.update(1. / dt * 1000);
-  if (fps < 15) {
+  if (fps < 15 && !s->scene.rec_stat) {
     LOGW("slow frame rate: %.2f fps", fps);
   }
   prev_draw_t = cur_draw_t;
