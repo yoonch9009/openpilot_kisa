@@ -514,6 +514,7 @@ FW_VERSIONS = {
       b'\xf1\x00DH__ SCC F-CUP      1.00 1.01 96400-B1120         ',
       b'\xf1\x00DH__ SCC F-CUP      1.00 1.02 96400-B1120         ',
       b'\xf1\x00DH__ SCC FHCUP      1.00 1.01 96400-B1110         ',
+      b'\xf1\x00DH__ SCC FHCU-      1.00 1.01 96400-B1120         ',
     ],
     (Ecu.fwdCamera, 0x7c4, None): [
       b'\xf1\x00DH  LKAS AT KOR LHD 1.01 1.01 95895-B1500 161014',
