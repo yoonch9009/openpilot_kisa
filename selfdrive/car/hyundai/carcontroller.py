@@ -1428,6 +1428,9 @@ class CarController(CarControllerBase):
             #differ = round(abs(self.CSC.ctrl_speed - round(CS.VSetDis)))
             #self.refresh_time = interp(differ, [1,2,3], [1.5,1,0])
             self.refresh_time = 0
+          else:
+            self.last_button_frame = self.frame
+            self.refresh_time = 1
         else:
           self.cruise_gap_set_init = False
           self.on_speed_control = False
