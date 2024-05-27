@@ -1375,7 +1375,7 @@ class CarController(CarControllerBase):
             self.last_button_frame = self.frame
     else:
       if (self.frame - self.last_button_frame) * DT_CTRL > (randint(1, 3) * 0.1 * self.refresh_time) and CS.acc_active: # 0.25
-        resume = CS.out.cruiseState.standstill and abs(CS.lead_distance - self.last_lead_distance) >= 0.05 and self.standstill_status_canfd
+        resume = CS.out.cruiseState.standstill and abs(CS.lead_distance - self.last_lead_distance) >= 0.1 and self.standstill_status_canfd
         standstill = CS.out.cruiseState.standstill and 6 > CS.lead_distance > 0
         if standstill and self.last_lead_distance == 0:
           self.last_lead_distance = CS.lead_distance
