@@ -653,6 +653,7 @@ class CAR(Platforms):
   HYUNDAI_CASPER = HyundaiPlatformConfig(
     [HyundaiCarDocs("Hyundai Casper 2022", min_enable_speed=6 * CV.MPH_TO_MS, car_parts=CarParts.common([CarHarness.hyundai_a]))],
     CarSpecs(mass=1060, wheelbase=2.4, steerRatio=14.3), # https://namu.wiki/w/%ED%98%84%EB%8C%80%20%EC%BA%90%EC%8A%A4%ED%8D%BC#s-3
+    flags=HyundaiFlags.CAMERA_SCC,
   )
 
 class Buttons:
